@@ -3,10 +3,9 @@
 <head>
   <meta charset="utf-8">
   
-
   
   <title>记Python中scapy库的使用与问题 | Sleeping Cat&#39;s Blogs</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Scapy介绍Scapy是一个Python程序，使用户能够发送，嗅探和剖析并伪造网络数据包。此功能允许构建可以探测，扫描或攻击网络的工具。 换句话说，Scapy是一个功能强大的交互式数据包操作程序。它能够伪造或解码大量协议的数据包，通过线路发送，捕获它们，匹配请求和回复等等。Scapy可以轻松处理大多数经典任务，如扫描，跟踪路由，探测，单元测试，攻击或网络发现。它可以取代hping，arpspoo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记Python中scapy库的使用与问题">
@@ -21,17 +20,24 @@
 <meta property="article:tag" content="scapy">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="Sleeping Cat&#39;s Blogs" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="Sleeping Cat's Blogs" type="application/atom+xml">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.png">
   
   
-    <link href="/css/google-fonts.css" rel="stylesheet" type="text/css">
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
   
   
 <link rel="stylesheet" href="/css/style.css">
 
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
 <meta name="generator" content="Hexo 5.1.1"></head>
 
 <body>
@@ -67,11 +73,12 @@
     </div>
   </div>
 </header>
+
       <div class="outer">
-        <section id="main"><article id="post-记Python中scapy库的使用与问题" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-记Python中scapy库的使用与问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2020/09/17/%E8%AE%B0Python%E4%B8%ADscapy%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%8E%E9%97%AE%E9%A2%98/" class="article-date">
-  <time datetime="2020-09-17T07:23:36.000Z" itemprop="datePublished">2020-09-17</time>
+  <time class="dt-published" datetime="2020-09-17T07:23:36.000Z" itemprop="datePublished">2020-09-17</time>
 </a>
     
   </div>
@@ -81,14 +88,14 @@
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
+    <h1 class="p-name article-title" itemprop="headline name">
       记Python中scapy库的使用与问题
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <h2 id="Scapy介绍"><a href="#Scapy介绍" class="headerlink" title="Scapy介绍"></a>Scapy介绍</h2><p>Scapy是一个Python程序，使用户能够发送，嗅探和剖析并伪造网络数据包。此功能允许构建可以探测，扫描或攻击网络的工具。</p>
 <p>换句话说，Scapy是一个功能强大的交互式数据包操作程序。它能够伪造或解码大量协议的数据包，通过线路发送，捕获它们，匹配请求和回复等等。Scapy可以轻松处理大多数经典任务，如扫描，跟踪路由，探测，单元测试，攻击或网络发现。它可以取代hping，arpspoof，arp-sk，arping，p0f甚至是Nmap，tcpdump和tshark的某些部分。</p>
@@ -135,7 +142,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/09/17/%E8%AE%B0Python%E4%B8%ADscapy%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%8E%E9%97%AE%E9%A2%98/" data-id="ckfaxmnxs000e0sqtbmnvbq0s" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/09/17/%E8%AE%B0Python%E4%B8%ADscapy%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%8E%E9%97%AE%E9%A2%98/" data-id="ckfaxmnxs000e0sqtbmnvbq0s" data-title="记Python中scapy库的使用与问题" class="article-share-link">Share</a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scapy/" rel="tag">scapy</a></li></ul>
@@ -165,6 +173,7 @@
 
   
 </article>
+
 
 </section>
         
@@ -241,10 +250,11 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2020 S.C.Y<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
+
     </div>
     <nav id="mobile-nav">
   
@@ -255,19 +265,19 @@
 </nav>
     
 
-<script src="/js/jquery-3.5.1.min.js"></script>
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
 
 
   
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script src="/fancybox/jquery.fancybox.min.js"></script>
 
 
 
 
 <script src="/js/script.js"></script>
+
 
 
 
