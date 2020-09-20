@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>BurpSuite系列之增强扫描规则插件 | Sleeping Cat&#39;s Blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言BrupSuite作为Web渗透军火库里最流行的武器之一，其在国内使用的时候，总觉得有点水土不服。以致后来的像XRay之类的国内代理扫描也逐渐流行被广泛传播的时候，出现部分人感觉Burp扫描不行的感觉。 其实，在我看来，不是不行，底层原理都一样，只是它的规则是写死的，不支持自定义，导致很多时候出现的新漏洞无法及时覆盖，还有像国内的一些本土化的洞也覆盖不上。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BurpSuite系列之增强扫描规则插件">
+<meta property="og:url" content="http://example.com/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/index.html">
+<meta property="og:site_name" content="Sleeping Cat&#39;s Blogs">
+<meta property="og:description" content="前言BrupSuite作为Web渗透军火库里最流行的武器之一，其在国内使用的时候，总觉得有点水土不服。以致后来的像XRay之类的国内代理扫描也逐渐流行被广泛传播的时候，出现部分人感觉Burp扫描不行的感觉。 其实，在我看来，不是不行，底层原理都一样，只是它的规则是写死的，不支持自定义，导致很多时候出现的新漏洞无法及时覆盖，还有像国内的一些本土化的洞也覆盖不上。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/burp_sscanner.png">
+<meta property="og:image" content="http://example.com/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/burp_scancheck_install.png">
+<meta property="og:image" content="http://example.com/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/scancheck_profiles.png">
+<meta property="og:image" content="http://example.com/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/scancheck_import.png">
+<meta property="og:image" content="http://example.com/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/scancheck_ui.png">
+<meta property="og:image" content="http://example.com/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/scancheck_gitleak_request.png">
+<meta property="og:image" content="http://example.com/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/scancheck_gitleak_response.png">
+<meta property="og:image" content="http://example.com/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/scancheck_gitleak_issue.png">
+<meta property="og:image" content="http://example.com/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/scancheck_fastjson_rce.png">
+<meta property="og:image" content="http://example.com/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/burp_scanner.png">
+<meta property="article:published_time" content="2020-09-19T10:17:26.000Z">
+<meta property="article:modified_time" content="2020-09-19T11:54:49.567Z">
+<meta property="article:author" content="S.C.Y">
+<meta property="article:tag" content="BurpSuite">
+<meta property="article:tag" content="Web渗透">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/burp_sscanner.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Sleeping Cat&#39;s Blogs" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Sleeping Cat&#39;s Blogs</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-BurpSuite系列之增强扫描规则插件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/" class="article-date">
+  <time datetime="2020-09-19T10:17:26.000Z" itemprop="datePublished">2020-09-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      BurpSuite系列之增强扫描规则插件
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>BrupSuite作为Web渗透军火库里最流行的武器之一，其在国内使用的时候，总觉得有点水土不服。以致后来的像XRay之类的国内代理扫描也逐渐流行被广泛传播的时候，出现部分人感觉Burp扫描不行的感觉。</p>
+<p>其实，在我看来，不是不行，底层原理都一样，只是它的规则是写死的，不支持自定义，导致很多时候出现的新漏洞无法及时覆盖，还有像国内的一些本土化的洞也覆盖不上。</p>
+<a id="more"></a>
+<p>所以，就萌生出一个想法，想写一个可以自定义规则的插件，用来扩展Burp，结合代理扫描一定会发现更多漏洞。而由于时间原因吧，断断续续已经过了3年，一日突然发现商店都上线了类似的插件，而且功能更强大，那还想什么呢，开始积累规则直接用吧！</p>
+<h2 id="原来的梦SScanner"><a href="#原来的梦SScanner" class="headerlink" title="原来的梦SScanner"></a>原来的梦SScanner</h2><p>原来有个梦，增强Burp的主动、被动扫描。在这记录下之前的插件，以后就只能尘封起来了</p>
+<p><img src="burp_sscanner.png" alt="burp_sscanner"></p>
+<h2 id="Scan-Check-Builder"><a href="#Scan-Check-Builder" class="headerlink" title="Scan Check Builder"></a>Scan Check Builder</h2><p>这个插件整体还是不错的，虽然还是有点点不完美，但是几乎可以忽略了。</p>
+<p><strong>下载安装</strong></p>
+<p><img src="burp_scancheck_install.png" alt="burp_scancheck_install"></p>
+<p><strong>使用</strong></p>
+<p>使用本来不想介绍太多，功能设计合理，基本是拿到即可上手。但是为了以后不犯傻，还是记录一下吧。</p>
+<p>首先，是它的官网源码，默认下载下来是不带规则的，但是源码带。地址：<a target="_blank" rel="noopener" href="https://github.com/portswigger/scan-check-builder">https://github.com/portswigger/scan-check-builder</a></p>
+<p><img src="scancheck_profiles.png" alt="scancheck_profiles"></p>
+<p>我们来看下<code>Options</code>，可以将下载的profiles进行导入。另外，每次改完策略，如果不生效可以点击<code>Reload</code>。TAG的话是POC分类标签，可以用来筛选。</p>
+<p><img src="scancheck_import.png" alt="scancheck_import"></p>
+<p>主界面包含<code>主动扫描</code>、<code>被动扫描</code>配置，其中被动扫描分为<code>请求</code>、<code>响应</code>配置。</p>
+<p><img src="scancheck_ui.png" alt="scancheck_ui"></p>
+<p><strong>以Git信息泄露扫描为例，介绍下它的配置</strong></p>
+<p>请求配置，请求配置里注意插入点类型的选择，以及方式是替换还是附加。还有最重要的Payload。</p>
+<p><img src="scancheck_gitleak_request.png" alt="scancheck_gitleak_request"></p>
+<p>响应配置，响应配置注意检测匹配的类型，大致分精确、模糊，正则、字符串。精确的会精确到如状态码等匹配。</p>
+<p><img src="scancheck_gitleak_response.png" alt="scancheck_gitleak_response"></p>
+<p>问题配置，这个需要注意，不仅要命名，还有等级与准确度，一定要选，不然插件解析问题会导致不生效，当时排查这个问题还读了源码，花了好久。</p>
+<p><img src="scancheck_gitleak_issue.png" alt="scancheck_gitleak_issue"></p>
+<p>还有个是FastjsonRCE的，这个比较特殊的是使用到了BC，{BC}在实际使用时，会被替换为burpcollaborator参数，通过DNS方式验证。</p>
+<p><img src="scancheck_fastjson_rce.png" alt="scancheck_gitleak_issue"></p>
+<p>更多参数及配置请看插件。</p>
+<p><strong>附加</strong></p>
+<p>另外，介绍一点，因为自定义规则和自有规则重复，所以我们可以在Scanner模块的Options里只勾选Extension相关。</p>
+<p><img src="burp_scanner.png" alt="burp_scanner"></p>
+<p>这样，就可以只扫描插件定义的问题啦。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/" data-id="ckfawyigu000hmwqt3pre58mi" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BurpSuite/" rel="tag">BurpSuite</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web%E6%B8%97%E9%80%8F/" rel="tag">Web渗透</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/09/17/%E8%AE%B0Python%E4%B8%ADscapy%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%8E%E9%97%AE%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">记Python中scapy库的使用与问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BurpSuite/" rel="tag">BurpSuite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web%E6%B8%97%E9%80%8F/" rel="tag">Web渗透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/app/" rel="tag">app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/putty/" rel="tag">putty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scapy/" rel="tag">scapy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/BurpSuite/" style="font-size: 10px;">BurpSuite</a> <a href="/tags/Web%E6%B8%97%E9%80%8F/" style="font-size: 10px;">Web渗透</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/putty/" style="font-size: 10px;">putty</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/scapy/" style="font-size: 10px;">scapy</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 20px;">代理</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">测试</a> <a href="/tags/%E9%9A%A7%E9%81%93/" style="font-size: 15px;">隧道</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/">BurpSuite系列之增强扫描规则插件</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/17/%E8%AE%B0Python%E4%B8%ADscapy%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%8E%E9%97%AE%E9%A2%98/">记Python中scapy库的使用与问题</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/">记一次测试APP内存明文密码过程</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/15/%E4%BD%BF%E7%94%A8putty%E9%80%9A%E8%BF%87HTTP%E4%BB%A3%E7%90%86%E9%9A%A7%E9%81%93%E4%B8%8A%E7%BD%91/">使用putty通过HTTP代理隧道上网</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/14/%E4%BB%A3%E7%90%86%E4%B8%8E%E9%9A%A7%E9%81%93%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93%E5%8F%8A%E5%88%A9%E7%94%A8%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90/">代理与隧道概念总结及利用场景分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 S.C.Y<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

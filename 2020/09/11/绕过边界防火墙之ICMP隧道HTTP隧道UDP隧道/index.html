@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>绕过边界防火墙之ICMP隧道HTTP隧道UDP隧道 | Sleeping Cat&#39;s Blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、ICMP隧道背景：已经通过某种手段拿到了园区网A主机的控制权，但是边界防火墙只放行该主机向外的ICMP流量，此时怎样才能让A主机和公网主机C建立TCP连接呢？ 方案：将TCP包内容包裹在ICMP中进行传递 工具： ptunnel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="绕过边界防火墙之ICMP隧道HTTP隧道UDP隧道">
+<meta property="og:url" content="http://example.com/2020/09/11/%E7%BB%95%E8%BF%87%E8%BE%B9%E7%95%8C%E9%98%B2%E7%81%AB%E5%A2%99%E4%B9%8BICMP%E9%9A%A7%E9%81%93HTTP%E9%9A%A7%E9%81%93UDP%E9%9A%A7%E9%81%93/index.html">
+<meta property="og:site_name" content="Sleeping Cat&#39;s Blogs">
+<meta property="og:description" content="一、ICMP隧道背景：已经通过某种手段拿到了园区网A主机的控制权，但是边界防火墙只放行该主机向外的ICMP流量，此时怎样才能让A主机和公网主机C建立TCP连接呢？ 方案：将TCP包内容包裹在ICMP中进行传递 工具： ptunnel">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2020/09/11/%E7%BB%95%E8%BF%87%E8%BE%B9%E7%95%8C%E9%98%B2%E7%81%AB%E5%A2%99%E4%B9%8BICMP%E9%9A%A7%E9%81%93HTTP%E9%9A%A7%E9%81%93UDP%E9%9A%A7%E9%81%93/icmp_tunnel.png">
+<meta property="og:image" content="http://example.com/2020/09/11/%E7%BB%95%E8%BF%87%E8%BE%B9%E7%95%8C%E9%98%B2%E7%81%AB%E5%A2%99%E4%B9%8BICMP%E9%9A%A7%E9%81%93HTTP%E9%9A%A7%E9%81%93UDP%E9%9A%A7%E9%81%93/http_tunnel.png">
+<meta property="og:image" content="http://example.com/2020/09/11/%E7%BB%95%E8%BF%87%E8%BE%B9%E7%95%8C%E9%98%B2%E7%81%AB%E5%A2%99%E4%B9%8BICMP%E9%9A%A7%E9%81%93HTTP%E9%9A%A7%E9%81%93UDP%E9%9A%A7%E9%81%93/udp_tunnel.png">
+<meta property="article:published_time" content="2020-09-11T12:58:25.000Z">
+<meta property="article:modified_time" content="2020-09-12T05:13:32.012Z">
+<meta property="article:author" content="S.C.Y">
+<meta property="article:tag" content="隧道">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/09/11/%E7%BB%95%E8%BF%87%E8%BE%B9%E7%95%8C%E9%98%B2%E7%81%AB%E5%A2%99%E4%B9%8BICMP%E9%9A%A7%E9%81%93HTTP%E9%9A%A7%E9%81%93UDP%E9%9A%A7%E9%81%93/icmp_tunnel.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Sleeping Cat&#39;s Blogs" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Sleeping Cat&#39;s Blogs</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-绕过边界防火墙之ICMP隧道HTTP隧道UDP隧道" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/11/%E7%BB%95%E8%BF%87%E8%BE%B9%E7%95%8C%E9%98%B2%E7%81%AB%E5%A2%99%E4%B9%8BICMP%E9%9A%A7%E9%81%93HTTP%E9%9A%A7%E9%81%93UDP%E9%9A%A7%E9%81%93/" class="article-date">
+  <time datetime="2020-09-11T12:58:25.000Z" itemprop="datePublished">2020-09-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      绕过边界防火墙之ICMP隧道HTTP隧道UDP隧道
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、ICMP隧道"><a href="#一、ICMP隧道" class="headerlink" title="一、ICMP隧道"></a>一、ICMP隧道</h3><p><strong>背景：</strong>已经通过某种手段拿到了园区网A主机的控制权，但是边界防火墙只放行该主机向外的ICMP流量，此时怎样才能让A主机和公网主机C建立TCP连接呢？</p>
+<p><strong>方案：</strong>将TCP包内容包裹在ICMP中进行传递</p>
+<p><strong>工具：</strong> ptunnel</p>
+<a id="more"></a>
+<p><strong>工作原理：</strong>A主机通过周期性向渗透测试工程师发送ICMP请求以建立ICMP连接。在本地侦听一个空闲端口并与指定IP的指定端口(C主机)建立映射。此时访问侦听的这个端口就相当于访问公网指定IP的指定端口了(C主机)<br><img src="icmp_tunnel.png" alt="icmp_tunnel"></p>
+<p><strong>隧道建立命令：</strong></p>
+<p>渗透测试工程师端（开启这个程序后本地不会侦听任何端口，因为它用的是ICMP，既不属于TCP也不属于UDP）：<br>ptunnel -x passwd</p>
+<p>参数说明：<br>-x：密码</p>
+<p>A主机端：<br>ptunnel -p 120.1.1.1 -lp 8000 -da 180.1.1.1 -dp 80 -x passwd</p>
+<p>参数说明：<br>-p：渗透测试工程师IP地址<br>-lp：本地侦听端口<br>-da：C主机<br>-dp：C主机端口<br>-x：密码</p>
+<p><strong>验证：</strong>此时在A主机将侦听8000端口，A、B主机此时连接A主机8000端口的TCP流量均被导入C主机的80端口</p>
+<p><strong>缺点：</strong>唯一的缺点是运行此程序需要root权限</p>
+<p><strong>提醒：</strong>如果觉得每个隧道只能映射一个公网地址有局限性，可以配合SSH动态端口使用。通过此方法建立ICMP隧道后，再在此隧道内建立一条SSH动态端口转发隧道就可以访问公网任意地址了</p>
+<h3 id="二、http隧道"><a href="#二、http隧道" class="headerlink" title="二、http隧道"></a>二、http隧道</h3><p><strong>背景：</strong>已经通过某种手段拿到了园区网内A主机的控制权，但是边界防火墙只放行代理服务器的出向流量，可是又想用A主机与外面的PC建立ssh连接时该怎么办？</p>
+<p><strong>方案：</strong>让http代理服务器代替A主机与PC建立ssh连接</p>
+<p><strong>工作原理：</strong>在本地侦听一个空闲端口，并将PC的22端口映射至该侦听端口，然后将通往PC22端口的流量包裹进代理服务器的http包中，代理服务器将代替A主机与PC建立ssh连接，然后将回包通过http反还给A主机。此时园区网内所有设备只要sshA主机侦听的端口，流量就会被导入PC的22端口。(另外该方案还支持代理链，即通过代理服务器连接至外网的某一代理服务器，再通过该代理服务器与PC建立ssh连接)<br><img src="http_tunnel.png" alt="http_tunnel"></p>
+<p><strong>隧道建立命令：</strong><br>proxytunnel -a 2222 -p 10.1.1.1:3128 -r 180.1.1.1:80 -d 120.1.1.1:22</p>
+<p>-a:本地侦听端口<br>-p: 本地官方的代理服务器<br>-r: 墙外的代理服务器<br>-d: 最终要访问的目标</p>
+<p><strong>验证：</strong>A主机将在0.0.0.0侦听2222端口，此时园区网内任意一主机ssh主机A的2222端口都将连到PC的22端口</p>
+<h3 id="三、UDP隧道"><a href="#三、UDP隧道" class="headerlink" title="三、UDP隧道"></a>三、UDP隧道</h3><p><strong>背景：</strong>通过某种手段拿到了园区网A主机的控制权，却发现边界防火墙只放行向外的DNS请求流量，此时想要ssh公网上的B主机该怎么办？</p>
+<p><strong>方案：</strong>将ssh流量包裹在DNS请求报文中</p>
+<p><strong>工作原理：</strong>搭建一个DNS服务器(B主机)，申请域名，并确保上级DNS服务器能将该域名解析至自己的DNS服务器。A主机向公网发出DNS请求(因为A记录长度有限，故可以请求txt这种记录，请求的txt内容就为ssh流量)，经过根DNS将流量解析至自己的DNS服务器（B主机），这样公网的主机B就收到了A主机发来的ssh协商请求，然后B主机通过将协商内容写入DNS应答包返回给主机A，这样一来一回就达成了建立ssh连接的网络环境。<br><img src="udp_tunnel.png" alt="udp_tunnel"></p>
+<p>由于这种隧道搭建需要一定成本(要让根DNS解析至自己主机)，所以就没有做实验验证了。</p>
+<p><strong>需要提醒一点：</strong>大家都知道DNS会用到UDP的53端口和TCP的53端口，但需要注意的是UDP的53端口是用来做DNS查询使用，TCP的53端口是用用于同一区域冗余DNS之间同步信息，并非这俩端口都是用来做DNS查询的，所以网络管理员一般在边界防火墙只需放开UDP的53端口即可。</p>
+<h3 id="总结：归根结底，每种隧道的实现其实都是将协商数据封装至可以放行的流量中。-即：防火墙放行什么协议就将隧道协商流量封装至什么协议"><a href="#总结：归根结底，每种隧道的实现其实都是将协商数据封装至可以放行的流量中。-即：防火墙放行什么协议就将隧道协商流量封装至什么协议" class="headerlink" title="总结：归根结底，每种隧道的实现其实都是将协商数据封装至可以放行的流量中。(即：防火墙放行什么协议就将隧道协商流量封装至什么协议)"></a>总结：归根结底，每种隧道的实现其实都是将协商数据封装至可以放行的流量中。(即：防火墙放行什么协议就将隧道协商流量封装至什么协议)</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/09/11/%E7%BB%95%E8%BF%87%E8%BE%B9%E7%95%8C%E9%98%B2%E7%81%AB%E5%A2%99%E4%B9%8BICMP%E9%9A%A7%E9%81%93HTTP%E9%9A%A7%E9%81%93UDP%E9%9A%A7%E9%81%93/" data-id="ckfawyig40005mwqt6gfu0kdx" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/11/Python%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95HTTP%E4%BB%A3%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Python实现简单HTTP代理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/11/HTTP%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">HTTP代理原理及实现</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BurpSuite/" rel="tag">BurpSuite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web%E6%B8%97%E9%80%8F/" rel="tag">Web渗透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/app/" rel="tag">app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/putty/" rel="tag">putty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scapy/" rel="tag">scapy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/BurpSuite/" style="font-size: 10px;">BurpSuite</a> <a href="/tags/Web%E6%B8%97%E9%80%8F/" style="font-size: 10px;">Web渗透</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/putty/" style="font-size: 10px;">putty</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/scapy/" style="font-size: 10px;">scapy</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 20px;">代理</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">测试</a> <a href="/tags/%E9%9A%A7%E9%81%93/" style="font-size: 15px;">隧道</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%A2%9E%E5%BC%BA%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/">BurpSuite系列之增强扫描规则插件</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/17/%E8%AE%B0Python%E4%B8%ADscapy%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%8E%E9%97%AE%E9%A2%98/">记Python中scapy库的使用与问题</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/">记一次测试APP内存明文密码过程</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/15/%E4%BD%BF%E7%94%A8putty%E9%80%9A%E8%BF%87HTTP%E4%BB%A3%E7%90%86%E9%9A%A7%E9%81%93%E4%B8%8A%E7%BD%91/">使用putty通过HTTP代理隧道上网</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/14/%E4%BB%A3%E7%90%86%E4%B8%8E%E9%9A%A7%E9%81%93%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93%E5%8F%8A%E5%88%A9%E7%94%A8%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90/">代理与隧道概念总结及利用场景分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 S.C.Y<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
