@@ -4,15 +4,24 @@
   <meta charset="utf-8">
   
   
-  <title>Tag: app | Sleeping Cat&#39;s Blogs</title>
+  <title>BurpSuite系列之J2EE扫描插件 | Sleeping Cat&#39;s Blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Sleeping Cat&#39;s Blogs">
-<meta property="og:url" content="http://1572766337.github.io/tags/app/index.html">
+  <meta name="description" content="What is J2EEScanJ2EEScan is a plugin for Burp Suite Proxy. The goal of this plugin is to improve the test coverage during web application penetration tests on J2EE applications.（摘自作者首页）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BurpSuite系列之J2EE扫描插件">
+<meta property="og:url" content="http://1572766337.github.io/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BJ2EE%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/index.html">
 <meta property="og:site_name" content="Sleeping Cat&#39;s Blogs">
+<meta property="og:description" content="What is J2EEScanJ2EEScan is a plugin for Burp Suite Proxy. The goal of this plugin is to improve the test coverage during web application penetration tests on J2EE applications.（摘自作者首页）">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://1572766337.github.io/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BJ2EE%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/j2ee_output.png">
+<meta property="og:image" content="http://1572766337.github.io/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BJ2EE%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/j2ee_issues.png">
+<meta property="article:published_time" content="2020-09-20T12:09:39.000Z">
+<meta property="article:modified_time" content="2020-09-20T12:26:27.587Z">
 <meta property="article:author" content="S.C.Y">
+<meta property="article:tag" content="BurpSuite">
+<meta property="article:tag" content="Web渗透">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://1572766337.github.io/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BJ2EE%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/j2ee_output.png">
   
     <link rel="alternate" href="/atom.xml" title="Sleeping Cat's Blogs" type="application/atom+xml">
   
@@ -69,39 +78,72 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  <time class="dt-published" datetime="2020-09-15T08:45:02.000Z" itemprop="datePublished">Sep 15</time>
+        <section id="main"><article id="post-BurpSuite系列之J2EE扫描插件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BJ2EE%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2020-09-20T12:09:39.000Z" itemprop="datePublished">2020-09-20</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/">记一次测试APP内存明文密码过程</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      BurpSuite系列之J2EE扫描插件
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="What-is-J2EEScan"><a href="#What-is-J2EEScan" class="headerlink" title="What is J2EEScan"></a>What is J2EEScan</h2><p>J2EEScan is a plugin for Burp Suite Proxy. The goal of this plugin is to improve the test coverage during web application penetration tests on J2EE applications.（摘自<a target="_blank" rel="noopener" href="https://github.com/ilmila/J2EEScan">作者首页</a>）</p>
+<a id="more"></a>
+
+<h2 id="J2EEScan"><a href="#J2EEScan" class="headerlink" title="J2EEScan"></a>J2EEScan</h2><p>它官网默认下载下来的提供的支持规则较少，仅有45个。而作者首页截止当前已经更新到70+个测试用例。</p>
+<p>官网地址：<a target="_blank" rel="noopener" href="https://github.com/portswigger/j2ee-scan">https://github.com/portswigger/j2ee-scan</a></p>
+<p>作者地址：<a target="_blank" rel="noopener" href="https://github.com/ilmila/J2EEScan">https://github.com/ilmila/J2EEScan</a></p>
+<p><img src="j2ee_output.png" alt="j2ee_output"></p>
+<p><img src="j2ee_issues.png" alt="j2ee_issues"></p>
+<p>建议还是在作者首页下载。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://1572766337.github.io/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BJ2EE%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/" data-id="ckfciots4000jocqt9w4k9if8" data-title="BurpSuite系列之J2EE扫描插件" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BurpSuite/" rel="tag">BurpSuite</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web%E6%B8%97%E9%80%8F/" rel="tag">Web渗透</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%A2%AB%E5%8A%A8%E6%89%AB%E6%8F%8F%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          BurpSuite系列之被动扫描增强插件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%B6%8A%E6%9D%83%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">BurpSuite系列之越权扫描插件</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>
