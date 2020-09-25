@@ -4,29 +4,28 @@
   <meta charset="utf-8">
   
   
-  <title>记一次测试APP内存明文密码过程 | Sleeping Cat&#39;s Blogs</title>
+  <title>BurpSuite系列之密码增强插件 | Sleeping Cat&#39;s Blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="需要的工具 雷电模拟器 安卓开发SDK工具包 Eclipse之MAT分析工具">
+  <meta name="description" content="背景原来已经写过一个exe的小工具，用于针对性密码生成。但是最近做测试的时候发现，每次需要在两个工具间来回切换，还得复制，收集的常用弱口令每次都需要导入，是真费劲。所以就重新开发了个Burp插件版本的，本来想跟上线应用似的提交Burp的应用市场来着，找了下没找见，嫌麻烦算了吧，但是还是想分享出来^0^">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记一次测试APP内存明文密码过程">
-<meta property="og:url" content="http://1572766337.github.io/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/index.html">
+<meta property="og:title" content="BurpSuite系列之密码增强插件">
+<meta property="og:url" content="http://1572766337.github.io/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/index.html">
 <meta property="og:site_name" content="Sleeping Cat&#39;s Blogs">
-<meta property="og:description" content="需要的工具 雷电模拟器 安卓开发SDK工具包 Eclipse之MAT分析工具">
+<meta property="og:description" content="背景原来已经写过一个exe的小工具，用于针对性密码生成。但是最近做测试的时候发现，每次需要在两个工具间来回切换，还得复制，收集的常用弱口令每次都需要导入，是真费劲。所以就重新开发了个Burp插件版本的，本来想跟上线应用似的提交Burp的应用市场来着，找了下没找见，嫌麻烦算了吧，但是还是想分享出来^0^">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://1572766337.github.io/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/debuggable.png">
-<meta property="og:image" content="http://1572766337.github.io/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/eclipse_mat.png">
-<meta property="og:image" content="http://1572766337.github.io/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/ddms_dump.png">
-<meta property="og:image" content="http://1572766337.github.io/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/eclipse_hprof_open.png">
-<meta property="og:image" content="http://1572766337.github.io/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/eclipse_hprof_index.png">
-<meta property="og:image" content="http://1572766337.github.io/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/eclipse_hprof_str.png">
-<meta property="og:image" content="http://1572766337.github.io/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/eclipse_hprof_search.png">
-<meta property="article:published_time" content="2020-09-15T08:45:02.000Z">
-<meta property="article:modified_time" content="2020-09-15T09:46:04.778Z">
+<meta property="og:image" content="http://1572766337.github.io/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/burp_password.png">
+<meta property="og:image" content="http://1572766337.github.io/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/burp_password_dics.png">
+<meta property="og:image" content="http://1572766337.github.io/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/password_payload.png">
+<meta property="og:image" content="http://1572766337.github.io/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/inturder_payload.png">
+<meta property="og:image" content="http://1572766337.github.io/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/passwd_admin.png">
+<meta property="og:image" content="http://1572766337.github.io/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/passwd_zhang.png">
+<meta property="article:published_time" content="2020-09-25T06:17:38.000Z">
+<meta property="article:modified_time" content="2020-09-25T06:23:24.100Z">
 <meta property="article:author" content="S.C.Y">
-<meta property="article:tag" content="app">
-<meta property="article:tag" content="测试">
+<meta property="article:tag" content="BurpSuite">
+<meta property="article:tag" content="Web渗透">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://1572766337.github.io/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/debuggable.png">
+<meta name="twitter:image" content="http://1572766337.github.io/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/burp_password.png">
   
     <link rel="alternate" href="/" title="Sleeping Cat's Blogs" >
   
@@ -83,10 +82,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-记一次测试APP内存明文密码过程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-BurpSuite系列之密码增强插件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/" class="article-date">
-  <time class="dt-published" datetime="2020-09-15T08:45:02.000Z" itemprop="datePublished">2020-09-15</time>
+    <a href="/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2020-09-25T06:17:38.000Z" itemprop="datePublished">2020-09-25</time>
 </a>
     
   </div>
@@ -97,7 +96,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      记一次测试APP内存明文密码过程
+      BurpSuite系列之密码增强插件
     </h1>
   
 
@@ -105,46 +104,49 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="需要的工具"><a href="#需要的工具" class="headerlink" title="需要的工具"></a>需要的工具</h2><ol>
-<li>雷电模拟器</li>
-<li>安卓开发SDK工具包</li>
-<li>Eclipse之MAT分析工具</li>
-</ol>
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>原来已经写过一个exe的小工具，用于针对性密码生成。但是最近做测试的时候发现，每次需要在两个工具间来回切换，还得复制，收集的常用弱口令每次都需要导入，是真费劲。所以就重新开发了个Burp插件版本的，本来想跟上线应用似的提交Burp的应用市场来着，找了下没找见，嫌麻烦算了吧，但是还是想分享出来^0^</p>
 <a id="more"></a>
 
-<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="1-首先搭建环境"><a href="#1-首先搭建环境" class="headerlink" title="1. 首先搭建环境"></a>1. 首先搭建环境</h3><p><strong>安装雷电模拟器</strong></p>
-<p>官网为<a target="_blank" rel="noopener" href="https://www.ldmnq.com/">https://www.ldmnq.com/</a>，为什么选择雷电，因为它默认开启了debuggable，下载安装即可</p>
-<p><img src="debuggable.png" alt="debuggable"></p>
-<p><strong>安装软件，注册账号</strong></p>
-<p>下载安装即可</p>
-<p><strong>安装MAT</strong></p>
-<p>打开eclipse市场，下载安装即可</p>
-<p><img src="eclipse_mat.png" alt="eclipse_mat"></p>
-<p><strong>打开DDMS，使用adb工具连接模拟器</strong></p>
-<p>连接不上可使用<code>reset adb</code>多试几次，或者直接用命令行连接</p>
-<h3 id="2-开始操作"><a href="#2-开始操作" class="headerlink" title="2. 开始操作"></a>2. 开始操作</h3><p><strong>使用账号登录APP</strong></p>
-<p>确保登录，走过验证流程即可，可以多点几项登录后功能</p>
-<p><strong>使用DDMS dump内存中hprof文件</strong></p>
-<p><img src="ddms_dump.png" alt="ddms_dump"><br>如图，选中要dump的app，选择dump hprof即可，需要稍等一会，可能有点慢</p>
-<p><strong>使用hprof-conv转换</strong></p>
-<p><code>hprof-conv.exe old.hprof new.hprof</code><br>执行命令即可，命令在SDK工具包中有</p>
-<p><strong>使用eclipse打开</strong></p>
-<p>直接拖入文件，由于已经安装过MAT分析工具，会自动分析，分析完成后默认选项打开<br><img src="eclipse_hprof_open.png" alt="eclipse_hprof_index"></p>
-<p>打开后找到主页，选择<code>Class Histogram</code><br><img src="eclipse_hprof_index.png" alt="eclipse_hprof_index"></p>
-<p>在这个信息中，我们主要关注两项，String、Char[]<br><img src="eclipse_hprof_str.png" alt="eclipse_hprof_str"></p>
-<p><strong>查找String信息泄露</strong></p>
-<p>点击<code>All Objects</code>，查找自己感兴趣的<br><img src="eclipse_hprof_search.png" alt="eclipse_hprof_search"></p>
-<p><strong>查找Char[]信息泄露</strong></p>
-<p>同上</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>功能比较简单，大致总结以下：</p>
+<ol>
+<li>通过字符、数字、特殊符号进行组合生成，可选择如何组合</li>
+<li>提供部分内置字典，包含常见用户名、密码</li>
+<li>生成密码列表自动与Intruder模块关联</li>
+</ol>
+<p>本来还做了自动提取Request、Response关键词功能，提取出来发现大部分都是无意义的，还是算了吧，这么鸡肋的功能，还得占个面板，还是给咔嚓掉算了。</p>
+<p><strong>主要功能之组合生成</strong></p>
+<p>这个主要是针对性生成密码使用的，想想一般设置密码的思路，正向的做就对了，简单，看图</p>
+<p><img src="burp_password.png" alt="burp_password"></p>
+<p><strong>主要功能之常见口令</strong></p>
+<p>（别看我看图，我是凑字的）</p>
+<p><img src="burp_password_dics.png" alt="burp_password_dics"></p>
+<p><strong>主要功能之联结Payload</strong></p>
+<p>（别看我看图，我是凑字的）</p>
+<p><img src="password_payload.png" alt="password_payload"></p>
+<p>主要功能之。。。</p>
+<p>没了没了，除了密码打包才8k的一个东东，还指望它有啥</p>
+<p>附张运行图好了</p>
+<p><img src="inturder_payload.png" alt="inturder_payload"></p>
+<h2 id="实战使用篇"><a href="#实战使用篇" class="headerlink" title="实战使用篇"></a>实战使用篇</h2><p>实战就不要想了，简单介绍下使用篇</p>
+<p>比如小张管理员在后台设置了个密码是Admin@2020，按理说字母数字下划线都符合，策略上已经挺强了（其实还是弱口令），那在收集到小张的真实姓名，生日、手机。。。时候呢，我们分别按照组合来生成下试试</p>
+<p><strong>admin的密码生成</strong></p>
+<p><img src="passwd_admin.png" alt="passwd_admin"></p>
+<p><strong>针对性密码生成</strong></p>
+<p>姓名：张三丰</p>
+<p>生日：20200606</p>
+<p>手机：18812345678</p>
+<p><img src="passwd_zhang.png" alt="passwd_zhang"></p>
+<p>根据以上信息，3到16位的，生成345个密码</p>
+<p>最后附上下载地址：<a target="_blank" rel="noopener" href="https://github.com/1572766337/burp_password/releases/tag/1.0.0">https://github.com/1572766337/burp_password/releases/tag/1.0.0</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://1572766337.github.io/2020/09/15/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95APP%E5%86%85%E5%AD%98%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B/" data-id="ckfi3oswt000br0qte3p9fx3p" data-title="记一次测试APP内存明文密码过程" class="article-share-link">Share</a>
+      <a data-url="http://1572766337.github.io/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/" data-id="ckfi3osxl000ur0qt958v3iqp" data-title="BurpSuite系列之密码增强插件" class="article-share-link">Share</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/app/" rel="tag">app</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BurpSuite/" rel="tag">BurpSuite</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web%E6%B8%97%E9%80%8F/" rel="tag">Web渗透</a></li></ul>
 
     </footer>
   </div>
@@ -152,19 +154,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/09/17/%E8%AE%B0Python%E4%B8%ADscapy%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%8E%E9%97%AE%E9%A2%98/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          记Python中scapy库的使用与问题
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/09/15/%E4%BD%BF%E7%94%A8putty%E9%80%9A%E8%BF%87HTTP%E4%BB%A3%E7%90%86%E9%9A%A7%E9%81%93%E4%B8%8A%E7%BD%91/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/09/22/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BSearch%E5%B0%8F%E6%8A%80%E5%B7%A7/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">使用putty通过HTTP代理隧道上网</div>
+      <div class="article-nav-title">BurpSuite系列之Search小技巧</div>
     </a>
   
 </nav>

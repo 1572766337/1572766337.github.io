@@ -14,7 +14,7 @@
 <meta property="article:author" content="S.C.Y">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="Sleeping Cat's Blogs" type="application/atom+xml">
+    <link rel="alternate" href="/" title="Sleeping Cat's Blogs" >
   
   
     <link rel="shortcut icon" href="/favicon.png">
@@ -57,7 +57,7 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/" title="RSS Feed"></a>
         
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
@@ -70,6 +70,96 @@
 
       <div class="outer">
         <section id="main">
+  
+    <article id="post-BurpSuite系列之密码增强插件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2020-09-25T06:17:38.000Z" itemprop="datePublished">2020-09-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/">BurpSuite系列之密码增强插件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>原来已经写过一个exe的小工具，用于针对性密码生成。但是最近做测试的时候发现，每次需要在两个工具间来回切换，还得复制，收集的常用弱口令每次都需要导入，是真费劲。所以就重新开发了个Burp插件版本的，本来想跟上线应用似的提交Burp的应用市场来着，找了下没找见，嫌麻烦算了吧，但是还是想分享出来^0^</p>
+        
+          <p class="article-more-link">
+            <a href="/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://1572766337.github.io/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/" data-id="ckfi3osxl000ur0qt958v3iqp" data-title="BurpSuite系列之密码增强插件" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BurpSuite/" rel="tag">BurpSuite</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web%E6%B8%97%E9%80%8F/" rel="tag">Web渗透</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-BurpSuite系列之Search小技巧" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/09/22/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BSearch%E5%B0%8F%E6%8A%80%E5%B7%A7/" class="article-date">
+  <time class="dt-published" datetime="2020-09-22T10:18:44.000Z" itemprop="datePublished">2020-09-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/09/22/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BSearch%E5%B0%8F%E6%8A%80%E5%B7%A7/">BurpSuite系列之Search小技巧</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在使用BurpSuite的过程中，有时候我们找到一处越权点，想快速对这一参数对应的所有请求链接进行测试，或者仅仅想找到一些敏感的参数，如username、password等，就需要一个强大的Search功能。而Burp正好自带这个功能，下面介绍两种。</p>
+        
+          <p class="article-more-link">
+            <a href="/2020/09/22/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BSearch%E5%B0%8F%E6%8A%80%E5%B7%A7/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://1572766337.github.io/2020/09/22/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BSearch%E5%B0%8F%E6%8A%80%E5%B7%A7/" data-id="ckfi3osxh000sr0qtf37taire" data-title="BurpSuite系列之Search小技巧" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BurpSuite/" rel="tag">BurpSuite</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web%E6%B8%97%E9%80%8F/" rel="tag">Web渗透</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
   
     <article id="post-BurpSuite系列之其他插件推荐篇" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
@@ -102,7 +192,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://1572766337.github.io/2020/09/21/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%85%B6%E4%BB%96%E6%8F%92%E4%BB%B6%E6%8E%A8%E8%8D%90%E7%AF%87/" data-id="ckfciotsa000qocqte6j84crj" data-title="BurpSuite系列之其他插件推荐篇" class="article-share-link">Share</a>
+      <a data-url="http://1572766337.github.io/2020/09/21/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%85%B6%E4%BB%96%E6%8F%92%E4%BB%B6%E6%8E%A8%E8%8D%90%E7%AF%87/" data-id="ckfi3osxf000qr0qtbilv6t1w" data-title="BurpSuite系列之其他插件推荐篇" class="article-share-link">Share</a>
       
       
       
@@ -147,7 +237,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://1572766337.github.io/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%A2%AB%E5%8A%A8%E6%89%AB%E6%8F%8F%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/" data-id="ckfciots7000locqtef4gg7in" data-title="BurpSuite系列之被动扫描增强插件" class="article-share-link">Share</a>
+      <a data-url="http://1572766337.github.io/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%A2%AB%E5%8A%A8%E6%89%AB%E6%8F%8F%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/" data-id="ckfi3osx8000lr0qt6itmbl15" data-title="BurpSuite系列之被动扫描增强插件" class="article-share-link">Share</a>
       
       
       
@@ -192,98 +282,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://1572766337.github.io/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BJ2EE%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/" data-id="ckfciots4000jocqt9w4k9if8" data-title="BurpSuite系列之J2EE扫描插件" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BurpSuite/" rel="tag">BurpSuite</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web%E6%B8%97%E9%80%8F/" rel="tag">Web渗透</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-BurpSuite系列之越权扫描插件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%B6%8A%E6%9D%83%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/" class="article-date">
-  <time class="dt-published" datetime="2020-09-20T11:31:04.000Z" itemprop="datePublished">2020-09-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%B6%8A%E6%9D%83%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/">BurpSuite系列之越权扫描插件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>越权检测的思路与方式，大致有两种：一是替换认证如Cookie，二是遍历参数。Burp提供的这个插件是以第一种方式实现的。</p>
-        
-          <p class="article-more-link">
-            <a href="/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%B6%8A%E6%9D%83%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://1572766337.github.io/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%B6%8A%E6%9D%83%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/" data-id="ckfciots8000nocqt1z7ea9ag" data-title="BurpSuite系列之越权扫描插件" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BurpSuite/" rel="tag">BurpSuite</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web%E6%B8%97%E9%80%8F/" rel="tag">Web渗透</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-BurpSuite系列之自定义扫描规则插件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/" class="article-date">
-  <time class="dt-published" datetime="2020-09-19T10:17:26.000Z" itemprop="datePublished">2020-09-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/">BurpSuite系列之自定义扫描规则插件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>BrupSuite作为Web渗透军火库里最流行的武器之一，其在国内使用的时候，总觉得有点水土不服。以致后来的像XRay之类的国内代理扫描也逐渐流行被广泛传播的时候，出现部分人感觉Burp扫描不行的感觉。</p>
-<p>其实，在我看来，不是不行，底层原理都一样，只是它的规则是写死的，不支持自定义，导致很多时候出现的新漏洞无法及时覆盖，还有像国内的一些本土化的洞也覆盖不上。</p>
-        
-          <p class="article-more-link">
-            <a href="/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://1572766337.github.io/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/" data-id="ckfciots1000hocqt8y53bya5" data-title="BurpSuite系列之自定义扫描规则插件" class="article-share-link">Share</a>
+      <a data-url="http://1572766337.github.io/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BJ2EE%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/" data-id="ckfi3osx3000ir0qtfbbb5f82" data-title="BurpSuite系列之J2EE扫描插件" class="article-share-link">Share</a>
       
       
       
@@ -301,7 +300,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -315,7 +314,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BurpSuite/" rel="tag">BurpSuite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web%E6%B8%97%E9%80%8F/" rel="tag">Web渗透</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/app/" rel="tag">app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/putty/" rel="tag">putty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scapy/" rel="tag">scapy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BurpSuite/" rel="tag">BurpSuite</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Web%E6%B8%97%E9%80%8F/" rel="tag">Web渗透</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/app/" rel="tag">app</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/putty/" rel="tag">putty</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scapy/" rel="tag">scapy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%A7%E9%81%93/" rel="tag">隧道</a><span class="tag-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -325,7 +324,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/BurpSuite/" style="font-size: 15px;">BurpSuite</a> <a href="/tags/Web%E6%B8%97%E9%80%8F/" style="font-size: 15px;">Web渗透</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/putty/" style="font-size: 10px;">putty</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/scapy/" style="font-size: 10px;">scapy</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 20px;">代理</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">测试</a> <a href="/tags/%E9%9A%A7%E9%81%93/" style="font-size: 15px;">隧道</a>
+      <a href="/tags/BurpSuite/" style="font-size: 20px;">BurpSuite</a> <a href="/tags/Web%E6%B8%97%E9%80%8F/" style="font-size: 20px;">Web渗透</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/putty/" style="font-size: 10px;">putty</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/scapy/" style="font-size: 10px;">scapy</a> <a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 16.67px;">代理</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">测试</a> <a href="/tags/%E9%9A%A7%E9%81%93/" style="font-size: 13.33px;">隧道</a>
     </div>
   </div>
 
@@ -334,7 +333,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">17</span></li></ul>
     </div>
   </div>
 
@@ -347,6 +346,14 @@
       <ul>
         
           <li>
+            <a href="/2020/09/25/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%AF%86%E7%A0%81%E5%A2%9E%E5%BC%BA%E6%8F%92%E4%BB%B6/">BurpSuite系列之密码增强插件</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/22/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BSearch%E5%B0%8F%E6%8A%80%E5%B7%A7/">BurpSuite系列之Search小技巧</a>
+          </li>
+        
+          <li>
             <a href="/2020/09/21/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E5%85%B6%E4%BB%96%E6%8F%92%E4%BB%B6%E6%8E%A8%E8%8D%90%E7%AF%87/">BurpSuite系列之其他插件推荐篇</a>
           </li>
         
@@ -356,14 +363,6 @@
         
           <li>
             <a href="/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8BJ2EE%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/">BurpSuite系列之J2EE扫描插件</a>
-          </li>
-        
-          <li>
-            <a href="/2020/09/20/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%B6%8A%E6%9D%83%E6%89%AB%E6%8F%8F%E6%8F%92%E4%BB%B6/">BurpSuite系列之越权扫描插件</a>
-          </li>
-        
-          <li>
-            <a href="/2020/09/19/BurpSuite%E7%B3%BB%E5%88%97%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99%E6%8F%92%E4%BB%B6/">BurpSuite系列之自定义扫描规则插件</a>
           </li>
         
       </ul>
